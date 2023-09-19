@@ -1,0 +1,12 @@
+server:
+  port: 8091
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://000.000.0.000:0000/bd_camiseta?createDatabaseIfNotExist=true
+    username: 
+    password: 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
