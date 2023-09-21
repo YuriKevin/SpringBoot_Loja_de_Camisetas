@@ -1,12 +1,9 @@
-server:
-  port: 8091
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://000.000.0.000:0000/bd_camiseta?createDatabaseIfNotExist=true
-    username: 
-    password: 
+    url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?createDatabaseIfNotExist=true
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
-    show-sql: true
