@@ -23,4 +23,5 @@ public class Camiseta {
 	int ano;
 	int quantidade;
 	float valor;
+	String imagem;
 }

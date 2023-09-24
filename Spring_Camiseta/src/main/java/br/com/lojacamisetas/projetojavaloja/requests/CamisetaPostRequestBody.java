@@ -16,4 +16,5 @@ public class CamisetaPostRequestBody {
 	private int ano;
 	private int quantidade;
 	private float valor;
+	String imagem;
 }

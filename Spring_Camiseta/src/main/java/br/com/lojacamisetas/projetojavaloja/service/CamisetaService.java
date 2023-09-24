@@ -42,6 +42,7 @@ public class CamisetaService {
     			.ano(camisetaPostRequestBody.getAno())
                 .quantidade(camisetaPostRequestBody.getQuantidade())
                 .valor(camisetaPostRequestBody.getValor())
+                .imagem(camisetaPostRequestBody.getImagem())
     			.build());
     }
 
@@ -58,6 +59,7 @@ public class CamisetaService {
                 .ano(camisetaPutRequestBody.getAno())
                 .quantidade(camisetaPutRequestBody.getQuantidade())
                 .valor(camisetaPutRequestBody.getValor())
+                .imagem(camisetaPutRequestBody.getImagem())
                 .build();
 
         camisetaRepository.save(camiseta);
@@ -65,29 +67,3 @@ public class CamisetaService {
 	     
 	    
 }
-
-
-
-
-
-
-
-
-
-//private static List<Camiseta> camisetas = new ArrayList<Camiseta>();
-/*public CamisetaService(){
-Camiseta camisetaMilan = new Camiseta(1L, "Milan", 2003, 52, 500);
-camisetas.add(camisetaMilan);
-Camiseta camisetaBarcelona = new Camiseta(2L, "Barcelona", 2015, 52, 700);
-camisetas.add(camisetaBarcelona);
-Camiseta camisetaBrasil = new Camiseta(3L, "Brasil", 2002, 1, 20000);
-camisetas.add(camisetaBrasil);
-Camiseta camisetaSantos = new Camiseta(4L, "Santos", 2011, 2, 2500);
-camisetas.add(camisetaSantos);
-Camiseta camisetaManchesterCity = new Camiseta(5L, "Manchester City", 2002, 1, 20000);
-camisetas.add(camisetaManchesterCity);
-Camiseta camisetaParma = new Camiseta(6L, "Parma", 2002, 1, 10000);
-camisetas.add(camisetaParma);
-Camiseta camisetaBayernLeverkusen = new Camiseta(7L, "Bayern Leverkusen", 2023, 1, 500);
-camisetas.add(camisetaBayernLeverkusen);
-}*/
