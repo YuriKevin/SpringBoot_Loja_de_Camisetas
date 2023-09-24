@@ -51,7 +51,8 @@ public class ClienteService {
         Cliente cliente = Cliente.builder()
                 .id(savedCliente.getId())
                 .nome(clientePutRequestBody.getNome())
-                .cpf(clientePutRequestBody.getCpf())      
+                .cpf(clientePutRequestBody.getCpf()) 
+                .vendaIds(clientePutRequestBody.getVendaIds())
                 .build();
 
         clienteRepository.save(cliente);

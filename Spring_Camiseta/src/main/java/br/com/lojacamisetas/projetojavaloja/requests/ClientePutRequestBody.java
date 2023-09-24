@@ -1,5 +1,7 @@
 package br.com.lojacamisetas.projetojavaloja.requests;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -7,4 +9,5 @@ public class ClientePutRequestBody {
 	private Long id;
 	private String nome;
 	private String cpf;
+	private List<Long> vendaIds;
 }
