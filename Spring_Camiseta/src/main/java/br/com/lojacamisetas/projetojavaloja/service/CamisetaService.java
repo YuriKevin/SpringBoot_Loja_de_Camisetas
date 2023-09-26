@@ -27,7 +27,7 @@ public class CamisetaService {
     }
     
     public List<Camiseta> findByClube(String clube) {
-    	return camisetaRepository.findByClube(clube);
+    	return camisetaRepository.findByClubeContaining(clube);
     }
     
     public Camiseta findByIdOrThrowBadRequestException(long id) {
