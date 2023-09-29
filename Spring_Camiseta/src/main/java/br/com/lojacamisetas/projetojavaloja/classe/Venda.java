@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +32,8 @@ public class Venda {
 	float valor;
 	
 	@ManyToOne
-	@JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id")
+	@JsonBackReference
 	Cliente cliente;
 	
 	@OneToMany

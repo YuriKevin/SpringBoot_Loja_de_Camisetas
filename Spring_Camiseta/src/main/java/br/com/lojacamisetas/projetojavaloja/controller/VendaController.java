@@ -52,10 +52,10 @@ public class VendaController {
         return ResponseEntity.ok(vendaService.findByIdOrThrowBadRequestException(id));
     }
 
-    @GetMapping(path = "cliente/{id}")
+    /*@GetMapping(path = "cliente/{id}")
     public ResponseEntity<List<Venda>> findVendas(@PathVariable long id){
         return ResponseEntity.ok(vendaService.findVendas(id));
-    }
+    }*/
     
     @PostMapping
     public ResponseEntity<Venda> save(@RequestBody VendaPostRequestBody vendaPostRequestBody){
