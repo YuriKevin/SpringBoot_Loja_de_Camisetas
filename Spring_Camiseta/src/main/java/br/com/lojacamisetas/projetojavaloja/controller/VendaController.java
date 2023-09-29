@@ -69,7 +69,7 @@ public class VendaController {
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
-
+    @PutMapping
     public ResponseEntity<Void> replace(@RequestBody VendaPutRequestBody vendaPutRequestBody){
     	vendaService.replace(vendaPutRequestBody);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);

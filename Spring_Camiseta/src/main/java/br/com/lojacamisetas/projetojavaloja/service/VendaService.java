@@ -102,10 +102,29 @@ public class VendaService {
 
 	public void replace(VendaPutRequestBody vendaPutRequestBody) {
 	    Venda savedVenda = findByIdOrThrowBadRequestException(vendaPutRequestBody.getId());
-
+	    
+	    long id_cliente_atual = savedVenda.getCliente().getId();
+	    long id_novo_cliente = vendaPutRequestBody.getCliente().getId();
+	    long id_venda = savedVenda.getId();
+	    
+	    if(id_cliente_atual == id_novo_cliente) {
+	    	
+	    }
+	    else {
+	    	Cliente cliente_atual = clienteService.findByIdOrThrowBadRequestException(id_cliente_atual);
+	    	cliente_atual.getVendaIds().removeIf(id -> id == id_venda);
+	    	clienteRepository.save(cliente_atual);
+	    	
+	    	Cliente novo_cliente = clienteService.findByIdOrThrowBadRequestException(id_novo_cliente);
+	    	novo_cliente.getVendaIds().add(id_venda);
+	    	clienteRepository.save(novo_cliente);
+	    	
+	    	savedVenda.setCliente(novo_cliente);
+	    	
+	    }
+	    
 	    savedVenda.setDia_venda(vendaPutRequestBody.getDia_venda());
 	    savedVenda.setValor(vendaPutRequestBody.getValor());
-		savedVenda.setCliente(vendaPutRequestBody.getCliente());
 	    savedVenda.setCamisetas(vendaPutRequestBody.getCamisetas());
 
 	    vendaRepository.save(savedVenda);
