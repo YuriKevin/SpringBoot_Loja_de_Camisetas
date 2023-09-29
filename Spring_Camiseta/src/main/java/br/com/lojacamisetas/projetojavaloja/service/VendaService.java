@@ -105,7 +105,8 @@ public class VendaService {
 
 	    savedVenda.setDia_venda(vendaPutRequestBody.getDia_venda());
 	    savedVenda.setValor(vendaPutRequestBody.getValor());
-
+		savedVenda.setCliente(vendaPutRequestBody.getCliente());
+	    savedVenda.setCamisetas(vendaPutRequestBody.getCamisetas());
 
 	    vendaRepository.save(savedVenda);
 	}
