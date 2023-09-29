@@ -60,7 +60,7 @@ public class VendaService {
 
 	    Venda venda = Venda.builder()
 	        .dia_venda(vendaPostRequestBody.getDia_venda())
-	        .valor(vendaPostRequestBody.getValor())
+	        .valor(0)
 	        .camisetas(camisetas)
 	        .cliente(cliente)
 	        .build();
@@ -87,10 +87,11 @@ public class VendaService {
     	        else {
     	        	throw new RuntimeException("A camiseta "+camiseta.getClube()+" esgotou :(");
     	            }
+    	        savedVenda.setValor(savedVenda.getValor() + camisetaBanco.getValor() * camiseta.getQuantidade());
     	        
-    	       
-    	    }
-	    return savedVenda;
+	    }
+    	    
+	    return vendaRepository.save(savedVenda);
 	}
 
 
@@ -100,8 +101,22 @@ public class VendaService {
 		
 	}
 
+	@Transactional
 	public void replace(VendaPutRequestBody vendaPutRequestBody) {
 	    Venda savedVenda = findByIdOrThrowBadRequestException(vendaPutRequestBody.getId());
+	    List<Camiseta> camisetas_antes = savedVenda.getCamisetas();
+	    
+	    for (Camiseta camiseta : camisetas_antes) {
+		 	   
+	        Camiseta camisetaBanco = camisetaRepository.findById(camiseta.getId())
+	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Camiseta não encontrada"));
+	        
+	            camisetaBanco.setQuantidade(camisetaBanco.getQuantidade() + camiseta.getQuantidade());
+
+	            camisetaRepository.save(camisetaBanco);
+	      
+	    }
+	    
 	    
 	    long id_cliente_atual = savedVenda.getCliente().getId();
 	    long id_novo_cliente = vendaPutRequestBody.getCliente().getId();
@@ -123,8 +138,27 @@ public class VendaService {
 	    	
 	    }
 	    
+	    savedVenda.setValor(0);
+	    
+	    List<Camiseta> camisetas_depois = vendaPutRequestBody.getCamisetas();
+	    for (Camiseta camiseta : camisetas_depois) {
+	 	   
+	        Camiseta camisetaBanco = camisetaRepository.findById(camiseta.getId())
+	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Camiseta não encontrada"));
+	        if (camisetaBanco.getQuantidade() >= camiseta.getQuantidade()) {
+	            camisetaBanco.setQuantidade(camisetaBanco.getQuantidade() - camiseta.getQuantidade());
+
+	            camisetaRepository.save(camisetaBanco);
+	        }
+	        else {
+	        	throw new RuntimeException("A camiseta "+camiseta.getClube()+" esgotou :(");
+	            }
+	        savedVenda.setValor(savedVenda.getValor() + camisetaBanco.getValor() * camiseta.getQuantidade());
+	        
+    }
+	   
+	    
 	    savedVenda.setDia_venda(vendaPutRequestBody.getDia_venda());
-	    savedVenda.setValor(vendaPutRequestBody.getValor());
 	    savedVenda.setCamisetas(vendaPutRequestBody.getCamisetas());
 
 	    vendaRepository.save(savedVenda);
