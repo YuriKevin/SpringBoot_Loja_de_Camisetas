@@ -42,7 +42,7 @@ public class VendaService {
         		.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Venda Não encontrada"));
  	    }
 
-	/*public List<Venda> findVendas(long clienteId) {
+	public List<Venda> findVendas(long clienteId) {
 		Cliente cliente = clienteService.findByIdOrThrowBadRequestException(clienteId);
 		List<Long> vendaIds = cliente.getVendaIds();
 		List<Venda> arrayDeVendas = new ArrayList<>();
@@ -51,7 +51,7 @@ public class VendaService {
 			arrayDeVendas.add(venda);
 		}
 		return arrayDeVendas;
-	}*/
+	}
 
 	@Transactional
 	public Venda save(VendaPostRequestBody vendaPostRequestBody) {
@@ -67,6 +67,13 @@ public class VendaService {
 
 	    Venda savedVenda = vendaRepository.save(venda);
 
+	    
+	    Cliente clienteBanco = clienteRepository.findById(cliente.getId())
+	    	    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não encontrado"));
+
+	    	clienteBanco.getVendaIds().add(savedVenda.getId());
+
+	    	clienteRepository.save(clienteBanco);
 
 	    for (Camiseta camiseta : camisetas) {
 	   

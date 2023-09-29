@@ -52,7 +52,7 @@ public class ClienteService {
                 .id(savedCliente.getId())
                 .nome(clientePutRequestBody.getNome())
                 .cpf(clientePutRequestBody.getCpf()) 
-                .vendas(clientePutRequestBody.getVendas())
+                .vendaIds(clientePutRequestBody.getVendaIds())
                 .build();
 
         clienteRepository.save(cliente);
@@ -60,6 +60,9 @@ public class ClienteService {
 	     
 	    
 }
+
+
+
 
 
 

@@ -35,7 +35,8 @@ public class Cliente {
 	//@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	//List<Venda> vendas;
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "cliente")
-	List<Venda> vendas; 
+	@ElementCollection
+    @CollectionTable(name = "venda_ids", joinColumns = @JoinColumn(name = "cliente_id"))
+    @Column(name = "venda_id")
+	private List<Long> vendaIds = new ArrayList<>();
 }

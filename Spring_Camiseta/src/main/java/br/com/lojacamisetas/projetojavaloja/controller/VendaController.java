@@ -51,11 +51,11 @@ public class VendaController {
     public ResponseEntity<Venda> findById(@PathVariable long id){
         return ResponseEntity.ok(vendaService.findByIdOrThrowBadRequestException(id));
     }
-
-    /*@GetMapping(path = "cliente/{id}")
+    
+    @GetMapping(path = "cliente/{id}")
     public ResponseEntity<List<Venda>> findVendas(@PathVariable long id){
         return ResponseEntity.ok(vendaService.findVendas(id));
-    }*/
+    }
     
     @PostMapping
     public ResponseEntity<Venda> save(@RequestBody VendaPostRequestBody vendaPostRequestBody){
@@ -69,7 +69,7 @@ public class VendaController {
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
-    @PutMapping
+
     public ResponseEntity<Void> replace(@RequestBody VendaPutRequestBody vendaPutRequestBody){
     	vendaService.replace(vendaPutRequestBody);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);

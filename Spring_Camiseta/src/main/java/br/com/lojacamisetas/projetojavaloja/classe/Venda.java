@@ -32,8 +32,7 @@ public class Venda {
 	float valor;
 	
 	@ManyToOne
-    @JoinColumn(name = "cliente_id")
-	@JsonBackReference
+	@JoinColumn(name = "cliente_id")
 	Cliente cliente;
 	
 	@OneToMany
@@ -41,3 +40,4 @@ public class Venda {
 	List<Camiseta> camisetas; // 
 
 }
+

@@ -10,5 +10,6 @@ public class ClientePutRequestBody {
 	private Long id;
 	private String nome;
 	private String cpf;
-	List<Venda> vendas; 
+	private List<Long> vendaIds;
 }
+
