@@ -3,6 +3,7 @@ package br.com.lojacamisetas.projetojavaloja.service;
 import org.springframework.web.server.ResponseStatusException;
 import br.com.lojacamisetas.projetojavaloja.classe.Venda;
 import br.com.lojacamisetas.projetojavaloja.repository.CamisetaRepository;
+import br.com.lojacamisetas.projetojavaloja.repository.CamisetaVendaRepository;
 import br.com.lojacamisetas.projetojavaloja.repository.ClienteRepository;
 import br.com.lojacamisetas.projetojavaloja.repository.VendaRepository;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPostRequestBody;
@@ -12,6 +13,9 @@ import br.com.lojacamisetas.projetojavaloja.requests.VendaPutRequestBody;
 import lombok.RequiredArgsConstructor;
 import br.com.lojacamisetas.projetojavaloja.classe.Cliente;
 import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
+import br.com.lojacamisetas.projetojavaloja.classe.CamisetaVenda;
+import br.com.lojacamisetas.projetojavaloja.requests.CamisetaVendaPostRequestBody;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,8 +34,10 @@ public class VendaService {
 	private final VendaRepository vendaRepository;
 	private final ClienteRepository clienteRepository;
 	private final CamisetaRepository camisetaRepository;
+	private final CamisetaVendaRepository camisetaVendaRepository;
     private final ClienteService clienteService;
-	//private final CamisetaPutRequestBody camisetaPutRequestBody;
+    private final CamisetaVendaService camisetaVendaService;
+    private final CamisetaService camisetaService;
 	   
 	public List<Venda> listAll() {
     	return vendaRepository.findAll();
@@ -55,41 +61,60 @@ public class VendaService {
 
 	@Transactional
 	public Venda save(VendaPostRequestBody vendaPostRequestBody) {
-	    List<Camiseta> camisetas = vendaPostRequestBody.getCamisetas();
+	    List<CamisetaVenda> camisetas = vendaPostRequestBody.getCamisetaVendas();
 	    Cliente cliente = vendaPostRequestBody.getCliente();
-
+	    
+	    Cliente clienteBanco = clienteRepository.findById(cliente.getId())
+	    	    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não encontrado"));
+	    
 	    Venda venda = Venda.builder()
-	        .dia_venda(vendaPostRequestBody.getDia_venda())
-	        .valor(0)
-	        .camisetas(camisetas)
-	        .cliente(cliente)
-	        .build();
+		        .dia_venda(vendaPostRequestBody.getDia_venda())
+		        .valor(0)
+		        .camisetaVendas(camisetas)
+		        .cliente(cliente)
+		        .build();
 
 	    Venda savedVenda = vendaRepository.save(venda);
 
 	    
-	    Cliente clienteBanco = clienteRepository.findById(cliente.getId())
-	    	    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não encontrado"));
 
 	    	clienteBanco.getVendaIds().add(savedVenda.getId());
+	    	savedVenda.setCliente(clienteBanco);
 
 	    	clienteRepository.save(clienteBanco);
+	    	
+	    	List<CamisetaVenda> camisetasBanco = new ArrayList<>();
 
-	    for (Camiseta camiseta : camisetas) {
+	    	 
+	    for (CamisetaVenda camiseta : camisetas) {
 	   
-    	        Camiseta camisetaBanco = camisetaRepository.findById(camiseta.getId())
+    	        Camiseta camisetaBanco = camisetaRepository.findById(camiseta.getCamiseta().getId())
     	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Camiseta não encontrada"));
+    	        
+    	       
     	        if (camisetaBanco.getQuantidade() >= camiseta.getQuantidade()) {
     	            camisetaBanco.setQuantidade(camisetaBanco.getQuantidade() - camiseta.getQuantidade());
 
     	            camisetaRepository.save(camisetaBanco);
     	        }
     	        else {
-    	        	throw new RuntimeException("A camiseta "+camiseta.getClube()+" esgotou :(");
+    	        	throw new RuntimeException("A camiseta "+camiseta.getCamiseta().getClube()+" esgotou :(");
     	            }
     	        savedVenda.setValor(savedVenda.getValor() + camisetaBanco.getValor() * camiseta.getQuantidade());
     	        
+    	        CamisetaVendaPostRequestBody camisetaVenda = new CamisetaVendaPostRequestBody();
+    	        camisetaVenda.setCamiseta(camisetaBanco);
+    	        camisetaVenda.setQuantidade(camiseta.getQuantidade());
+    	        camisetaVenda.setValor(camisetaBanco.getValor());
+    	        camisetaVenda.setVenda(savedVenda);
+    	        
+    	        
+    	        CamisetaVenda nova_camiseta_venda = camisetaVendaService.save(camisetaVenda);
+    	        
+    	        camisetasBanco.add(nova_camiseta_venda);
 	    }
+	    savedVenda.setCamisetaVendas(camisetasBanco);
+	    
     	    
 	    return vendaRepository.save(savedVenda);
 	}
@@ -104,9 +129,32 @@ public class VendaService {
 	@Transactional
 	public void replace(VendaPutRequestBody vendaPutRequestBody) {
 	    Venda savedVenda = findByIdOrThrowBadRequestException(vendaPutRequestBody.getId());
-	    List<Camiseta> camisetas_antes = savedVenda.getCamisetas();
+	    savedVenda.setDia_venda(vendaPutRequestBody.getDia_venda());
 	    
-	    for (Camiseta camiseta : camisetas_antes) {
+	    long id_cliente_atual = savedVenda.getCliente().getId();
+	    long id_novo_cliente = vendaPutRequestBody.getCliente().getId();
+	    long id_venda = savedVenda.getId();
+	    
+	    if(id_cliente_atual == id_novo_cliente) {
+	    	
+	    }
+	    else{
+	    	Cliente cliente_atual = clienteService.findByIdOrThrowBadRequestException(id_cliente_atual);
+	    	cliente_atual.getVendaIds().removeIf(id -> id == id_venda);
+	    	clienteRepository.save(cliente_atual);
+	    	
+	    	Cliente novo_cliente = clienteService.findByIdOrThrowBadRequestException(id_novo_cliente);
+	    	novo_cliente.getVendaIds().add(id_venda);
+	    	clienteRepository.save(novo_cliente);
+	    	
+	    	savedVenda.setCliente(novo_cliente);
+	    	
+	    }
+	    /*
+	    List<CamisetaVenda> camisetas_antes = savedVenda.getCamisetaVendas();
+	    
+	    
+	    for (CamisetaVenda camiseta : camisetas_antes) {
 		 	   
 	        Camiseta camisetaBanco = camisetaRepository.findById(camiseta.getId())
 	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Camiseta não encontrada"));
@@ -140,8 +188,10 @@ public class VendaService {
 	    
 	    savedVenda.setValor(0);
 	    
-	    List<Camiseta> camisetas_depois = vendaPutRequestBody.getCamisetas();
-	    for (Camiseta camiseta : camisetas_depois) {
+	    List<CamisetaVenda> camisetas_depois = vendaPutRequestBody.getCamisetaVendas();
+	    List<CamisetaVendaPostRequestBody> camisetas_atualizadas = new ArrayList<>();
+	    
+	    for (CamisetaVenda camiseta : camisetas_depois) {
 	 	   
 	        Camiseta camisetaBanco = camisetaRepository.findById(camiseta.getId())
 	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Camiseta não encontrada"));
@@ -151,7 +201,7 @@ public class VendaService {
 	            camisetaRepository.save(camisetaBanco);
 	        }
 	        else {
-	        	throw new RuntimeException("A camiseta "+camiseta.getClube()+" esgotou :(");
+	        	throw new RuntimeException("A camiseta "+camiseta.getCamiseta().getClube()+" esgotou :(");
 	            }
 	        savedVenda.setValor(savedVenda.getValor() + camisetaBanco.getValor() * camiseta.getQuantidade());
 	        
@@ -159,20 +209,106 @@ public class VendaService {
 	   
 	    
 	    savedVenda.setDia_venda(vendaPutRequestBody.getDia_venda());
-	    savedVenda.setCamisetas(vendaPutRequestBody.getCamisetas());
-
+	    savedVenda.setCamisetaVendas(vendaPutRequestBody.getCamisetaVendas());
+	     */
+	    
 	    vendaRepository.save(savedVenda);
 	}
 
-     
-	public Venda addCamisetasVenda(VendaPutRequestBody vendaPutRequestBody) {
-		Long vendaId = vendaPutRequestBody.getId();
-	    Venda venda = findByIdOrThrowBadRequestException(vendaId);
-	    List<Camiseta> camisetas = vendaPutRequestBody.getCamisetas();
+	     @Transactional
+		public Venda addCamisetasVenda(CamisetaVendaPostRequestBody camiseta) {
+			Long camisetaId = camiseta.getCamiseta().getId();
+		    Camiseta camisetaBanco = camisetaService.findByIdOrThrowBadRequestException(camisetaId);
+		    
+		    
+		    
+		    Long vendaId = camiseta.getVenda().getId();
+		    Venda venda = findByIdOrThrowBadRequestException(vendaId);
+		    
+		    List<CamisetaVenda> camisetas = venda.getCamisetaVendas();
+		    
+		    boolean camisetaJaExistente = camisetas.stream()
+		            .anyMatch(camisetaVenda -> camisetaVenda.getCamiseta().getId().equals(camisetaId));
 
-	    venda.setCamisetas(camisetas);
-
-	    return vendaRepository.save(venda);
-	}
-
+		    if (camisetaJaExistente) {
+		       
+		    	CamisetaVenda camisetaVendaEncontrada = camisetas.stream()
+		                .filter(camisetaVenda -> camisetaVenda.getCamiseta().getId().equals(camisetaId))
+		                .findFirst()
+		                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao procurar camiseta"));
+		    	
+		    	int quantidade = camisetaVendaEncontrada.getQuantidade() + camiseta.getQuantidade();
+		    	
+		    	camisetaVendaEncontrada.setQuantidade(quantidade);
+		    	
+		    	
+		    }
+		    else {
+		    	camiseta.setValor(camisetaBanco.getValor());
+			    camiseta.setCamiseta(camisetaBanco);
+			    
+			    CamisetaVenda camiseta_salva = camisetaVendaService.save(camiseta);
+			    camisetas.add(camiseta_salva);
+		    }
+		    
+		    
+		    
+		    venda.setCamisetaVendas(camisetas);
+		    
+		    float valor = 0;
+		    for(CamisetaVenda camiseta_array : camisetas) {
+		    	
+		    	valor+= camiseta_array.getValor() * camiseta_array.getQuantidade();
+		    	
+		    }
+		    
+		    venda.setValor(valor);
+	
+		    return vendaRepository.save(venda);
+		}
+	     
+	     @Transactional
+			public Venda RemoveCamisetasVenda(CamisetaVenda camiseta) {
+				Long camisetaId = camiseta.getCamiseta().getId();
+			    Camiseta camisetaBanco = camisetaService.findByIdOrThrowBadRequestException(camisetaId);
+			    
+			    Long vendaId = camiseta.getVenda().getId();
+			    Venda venda = findByIdOrThrowBadRequestException(vendaId);
+			    
+			    
+			    List<CamisetaVenda> camisetas = venda.getCamisetaVendas();
+			    
+	
+			    CamisetaVenda camisetaVendaEncontrada = camisetas.stream()
+		                .filter(camisetaVenda -> camisetaVenda.getCamiseta().getId().equals(camisetaId))
+		                .findFirst()
+		                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao procurar camiseta"));
+		    	
+			    if(camisetaVendaEncontrada.getQuantidade() <= camiseta.getQuantidade()) {
+			    	camisetaVendaService.delete(camisetaVendaEncontrada.getId());
+			    	camisetas.remove(camisetaVendaEncontrada);
+			    	
+			    }
+			    else {
+			    	int quantidade = camisetaVendaEncontrada.getQuantidade() - camiseta.getQuantidade();
+			    	
+			    	camisetaVendaEncontrada.setQuantidade(quantidade);
+			    }
+			    
+		    	
+			    
+			    float valor = 0;
+			    
+			    for(CamisetaVenda camiseta_array: camisetas) {
+			    		
+			    	valor+= camiseta_array.getValor() * camiseta_array.getQuantidade();
+			    	
+			    }
+			    venda.setValor(valor);
+			    
+			    
+			    venda.setCamisetaVendas(camisetas);
+		
+			    return vendaRepository.save(venda);
+			}
 }

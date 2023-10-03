@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,9 +36,9 @@ public class Venda {
 	@JoinColumn(name = "cliente_id")
 	Cliente cliente;
 	
-	@OneToMany
-    @JoinColumn(name = "venda_id")
-	List<Camiseta> camisetas; // 
+	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
+	@JsonManagedReference
+    List<CamisetaVenda> camisetaVendas;
 
 }
 

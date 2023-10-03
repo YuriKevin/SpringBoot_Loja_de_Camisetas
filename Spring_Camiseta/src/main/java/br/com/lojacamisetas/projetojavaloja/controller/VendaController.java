@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
+import br.com.lojacamisetas.projetojavaloja.classe.CamisetaVenda;
 import br.com.lojacamisetas.projetojavaloja.classe.Venda;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPutRequestBody;
+import br.com.lojacamisetas.projetojavaloja.requests.CamisetaVendaPostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.VendaPostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.VendaPutRequestBody;
 import br.com.lojacamisetas.projetojavaloja.service.CamisetaService;
@@ -75,9 +77,14 @@ public class VendaController {
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
-    @PutMapping(path = "/add_camisetas")
-    public ResponseEntity<Void> addCamisetasVenda(@RequestBody VendaPutRequestBody vendaPutRequestBody){
-    	vendaService.addCamisetasVenda(vendaPutRequestBody);
+    @PutMapping(path = "/add_camiseta")
+    public ResponseEntity<Void> addCamisetasVenda(@RequestBody CamisetaVendaPostRequestBody camisetaVenda){
+    	vendaService.addCamisetasVenda(camisetaVenda);
+    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PutMapping(path = "/remove_camiseta")
+    public ResponseEntity<Void> RemoveCamisetasVenda(@RequestBody CamisetaVenda camisetaVenda){
+    	vendaService.RemoveCamisetasVenda(camisetaVenda);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     

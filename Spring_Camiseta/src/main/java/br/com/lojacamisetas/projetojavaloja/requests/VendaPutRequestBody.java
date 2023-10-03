@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
+import br.com.lojacamisetas.projetojavaloja.classe.CamisetaVenda;
 import br.com.lojacamisetas.projetojavaloja.classe.Cliente;
 import lombok.Data;
 
@@ -13,5 +14,5 @@ public class VendaPutRequestBody {
 	private LocalDate dia_venda;
 	private float valor;
 	private Cliente cliente;
-	private List<Camiseta> camisetas;
+	 private List<CamisetaVenda> camisetaVendas; 
 }
