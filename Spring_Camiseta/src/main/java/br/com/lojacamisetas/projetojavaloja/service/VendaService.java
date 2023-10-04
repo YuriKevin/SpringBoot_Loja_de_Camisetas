@@ -15,7 +15,7 @@ import br.com.lojacamisetas.projetojavaloja.classe.Cliente;
 import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
 import br.com.lojacamisetas.projetojavaloja.classe.CamisetaVenda;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaVendaPostRequestBody;
-
+import br.com.lojacamisetas.projetojavaloja.requests.CamisetaVendaPutRequestBody;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -222,8 +222,7 @@ public class VendaService {
 		    
 		    
 		    
-		    Long vendaId = camiseta.getVenda().getId();
-		    Venda venda = findByIdOrThrowBadRequestException(vendaId);
+		    Venda venda = findByIdOrThrowBadRequestException(camiseta.getVendaId());
 		    
 		    List<CamisetaVenda> camisetas = venda.getCamisetaVendas();
 		    
@@ -246,7 +245,7 @@ public class VendaService {
 		    else {
 		    	camiseta.setValor(camisetaBanco.getValor());
 			    camiseta.setCamiseta(camisetaBanco);
-			    
+			    camiseta.setVenda(venda);
 			    CamisetaVenda camiseta_salva = camisetaVendaService.save(camiseta);
 			    camisetas.add(camiseta_salva);
 		    }
@@ -268,12 +267,12 @@ public class VendaService {
 		}
 	     
 	     @Transactional
-			public Venda RemoveCamisetasVenda(CamisetaVenda camiseta) {
+			public Venda AtualizaCamisetasVenda(CamisetaVendaPutRequestBody camiseta) {
 				Long camisetaId = camiseta.getCamiseta().getId();
 			    Camiseta camisetaBanco = camisetaService.findByIdOrThrowBadRequestException(camisetaId);
-			    
-			    Long vendaId = camiseta.getVenda().getId();
-			    Venda venda = findByIdOrThrowBadRequestException(vendaId);
+			    CamisetaVenda camisetaVendaBanco = camisetaVendaService.findByIdOrThrowBadRequestException(camiseta.getId());
+
+			    Venda venda = findByIdOrThrowBadRequestException(camisetaVendaBanco.getVenda().getId());
 			    
 			    
 			    List<CamisetaVenda> camisetas = venda.getCamisetaVendas();

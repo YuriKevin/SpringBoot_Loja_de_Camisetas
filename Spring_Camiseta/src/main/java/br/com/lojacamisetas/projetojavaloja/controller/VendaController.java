@@ -24,6 +24,7 @@ import br.com.lojacamisetas.projetojavaloja.classe.Venda;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPutRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaVendaPostRequestBody;
+import br.com.lojacamisetas.projetojavaloja.requests.CamisetaVendaPutRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.VendaPostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.VendaPutRequestBody;
 import br.com.lojacamisetas.projetojavaloja.service.CamisetaService;
@@ -83,8 +84,8 @@ public class VendaController {
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping(path = "/remove_camiseta")
-    public ResponseEntity<Void> RemoveCamisetasVenda(@RequestBody CamisetaVenda camisetaVenda){
-    	vendaService.RemoveCamisetasVenda(camisetaVenda);
+    public ResponseEntity<Void> AtualizaCamisetasVenda(@RequestBody CamisetaVendaPutRequestBody camisetaVenda){
+    	vendaService.AtualizaCamisetasVenda(camisetaVenda);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     

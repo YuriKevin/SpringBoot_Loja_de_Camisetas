@@ -12,4 +12,5 @@ public class CamisetaVendaPutRequestBody {
 	private Camiseta camiseta;
 	int quantidade;
 	float valor;
+	long vendaId;
 }
