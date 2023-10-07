@@ -56,9 +56,9 @@ private final CamisetaService camisetaService;
         CamisetaVenda savedCamiseta = findByIdOrThrowBadRequestException(camisetaVendaPutRequestBody.getId());
         CamisetaVenda camiseta = CamisetaVenda.builder()
                 .id(savedCamiseta.getId())
-                .camiseta(camisetaVendaPutRequestBody.getCamiseta())
+                .camiseta(savedCamiseta.getCamiseta())
                 .quantidade(camisetaVendaPutRequestBody.getQuantidade())
-                .valor(camisetaVendaPutRequestBody.getValor())
+                .valor(savedCamiseta.getValor())
                 .build();
 
         camisetaVendaRepository.save(camiseta);

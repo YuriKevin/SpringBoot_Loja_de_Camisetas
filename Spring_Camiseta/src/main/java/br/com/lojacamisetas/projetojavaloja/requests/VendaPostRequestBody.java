@@ -13,6 +13,6 @@ public class VendaPostRequestBody {
 	private float valor;
 	private LocalDate dia_venda;
 	private Cliente cliente;
-	 private List<CamisetaVenda> camisetaVendas; 
+	private List<CamisetaVenda> camisetaVendas; 
 }
 

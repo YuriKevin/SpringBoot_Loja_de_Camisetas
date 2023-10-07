@@ -65,7 +65,6 @@ public class VendaController {
         return new ResponseEntity<>(vendaService.save(vendaPostRequestBody), HttpStatus.CREATED);
     }
 
-    
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id){
     	vendaService.delete(id);
@@ -85,7 +84,7 @@ public class VendaController {
     }
     @PutMapping(path = "/remove_camiseta")
     public ResponseEntity<Void> AtualizaCamisetasVenda(@RequestBody CamisetaVendaPutRequestBody camisetaVenda){
-    	vendaService.AtualizaCamisetasVenda(camisetaVenda);
+    	vendaService.removeCamisetasVenda(camisetaVenda);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     

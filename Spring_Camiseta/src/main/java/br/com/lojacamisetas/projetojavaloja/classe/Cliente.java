@@ -13,9 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,8 +39,6 @@ public class Cliente {
 	//@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	//List<Venda> vendas;
 	
-	@ElementCollection
-    @CollectionTable(name = "venda_ids", joinColumns = @JoinColumn(name = "cliente_id"))
-    @Column(name = "venda_id")
-	private List<Long> vendaIds = new ArrayList<>();
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    List<Venda> vendas;
 }

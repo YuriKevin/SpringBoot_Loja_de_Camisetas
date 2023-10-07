@@ -14,5 +14,5 @@ public class VendaPutRequestBody {
 	private LocalDate dia_venda;
 	private float valor;
 	private Cliente cliente;
-	 private List<CamisetaVenda> camisetaVendas; 
+	private List<CamisetaVenda> camisetaVendas; 
 }
