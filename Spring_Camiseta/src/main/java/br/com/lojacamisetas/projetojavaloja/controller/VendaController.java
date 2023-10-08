@@ -37,8 +37,7 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 @Log4j2
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:4200")
-@CrossOrigin(origins = "https://angular-loja-de-camisetas.vercel.app")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/vendas") //receberá as requisições feitas à URL ex :http://localhost:8080/camisas/requisicao
 public class VendaController {
 	private final DateUtil dateUtil;
@@ -64,6 +63,10 @@ public class VendaController {
     @PostMapping
     public ResponseEntity<Venda> save(@RequestBody VendaPostRequestBody vendaPostRequestBody){
         return new ResponseEntity<>(vendaService.save(vendaPostRequestBody), HttpStatus.CREATED);
+    }
+    @PostMapping(path = "cliente/{id}")
+    public ResponseEntity<Long> saveManagement(@PathVariable long id){
+        return new ResponseEntity<>(vendaService.saveManagement(id), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")

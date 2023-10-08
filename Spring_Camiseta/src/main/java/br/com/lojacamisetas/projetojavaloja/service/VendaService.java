@@ -87,8 +87,8 @@ public class VendaService {
     	            camisetaRepository.save(camisetaBanco);
     	        }
     	        else {
-    	        	throw new RuntimeException("A camiseta "+camiseta.getCamiseta().getClube()+" esgotou :(");
-    	            }
+    	        	throw new RuntimeException("A camiseta "+camiseta.getCamiseta().getClube()+" possui "+camisetaBanco.getQuantidade()+" disponíveis.");
+    			    }
     	        savedVenda.setValor(savedVenda.getValor() + camisetaBanco.getValor() * camiseta.getQuantidade());
     	        
     	        CamisetaVenda nova_camiseta_venda = new CamisetaVenda();
@@ -139,7 +139,9 @@ public class VendaService {
 		public Venda addCamisetasVenda(CamisetaVendaPostRequestBody camiseta) {
 			Long camisetaId = camiseta.getCamiseta().getId();
 		    Camiseta camisetaBanco = camisetaService.findByIdOrThrowBadRequestException(camisetaId);
-		    
+		    if(camisetaBanco.getQuantidade() < camiseta.getQuantidade()) {
+		    	throw new RuntimeException("A camiseta "+camiseta.getCamiseta().getClube()+" possui "+camisetaBanco.getQuantidade()+" disponíveis.");
+		    }
 		    
 		    
 		    Venda venda = findByIdOrThrowBadRequestException(camiseta.getVendaId());
@@ -229,4 +231,21 @@ public class VendaService {
 		
 			    return vendaRepository.save(venda);
 			}
+	     
+	     @Transactional
+	 	public Long saveManagement(long id) {
+	 	    LocalDate localDate = LocalDate.now();
+	 	    Cliente clienteBanco = clienteRepository.findById(id)
+	 	    	    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não encontrado"));
+	 	    
+	 	    Venda venda = Venda.builder()
+	 		        .dia_venda(localDate)
+	 		        .valor(0)
+	 		        .cliente(clienteBanco)
+	 		        .build();
+
+	 	    return vendaRepository.save(venda).getId();
+	 	 
+
+	     }
 }
