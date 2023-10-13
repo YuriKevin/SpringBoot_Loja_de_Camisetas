@@ -169,10 +169,11 @@ public class VendaService {
 			    nova_camiseta.setCamiseta(camisetaBanco);
 			    nova_camiseta.setValor(camisetaBanco.getValor());
 			    nova_camiseta.setVenda(venda);
+			    nova_camiseta.setQuantidade(camiseta.getQuantidade());
 			    camisetas.add(nova_camiseta);
 		    }
-		    
-		    
+		    camisetaBanco.setQuantidade(camisetaBanco.getQuantidade() - camiseta.getQuantidade());
+		    camisetaRepository.save(camisetaBanco);
 		    
 		    venda.setCamisetaVendas(camisetas);
 		    
@@ -189,10 +190,10 @@ public class VendaService {
 		}
 	     
 	     @Transactional
-			public Venda removeCamisetasVenda(CamisetaVendaPutRequestBody camiseta) {
+			public Venda atualizaCamisetasVenda(CamisetaVendaPutRequestBody camiseta) {
 				Long camisetaId = camiseta.getCamiseta().getId();
 			    CamisetaVenda camisetaVendaBanco = camisetaVendaService.findByIdOrThrowBadRequestException(camiseta.getId());
-
+			    Camiseta camisetaBanco = camisetaService.findByIdOrThrowBadRequestException(camisetaId);
 			    Venda venda = findByIdOrThrowBadRequestException(camisetaVendaBanco.getVenda().getId());
 			    
 			    
@@ -204,15 +205,26 @@ public class VendaService {
 		                .findFirst()
 		                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao procurar camiseta"));
 		    	
-			    if(camisetaVendaEncontrada.getQuantidade() <= camiseta.getQuantidade()) {
+			    if(camiseta.getQuantidade() == 0) {
+			    	camisetaBanco.setQuantidade(camisetaBanco.getQuantidade()+camisetaVendaEncontrada.getQuantidade());
 			    	camisetaVendaService.delete(camisetaVendaEncontrada.getId());
 			    	camisetas.remove(camisetaVendaEncontrada);
 			    	
 			    }
 			    else {
-			    	int quantidade = camisetaVendaEncontrada.getQuantidade() - camiseta.getQuantidade();
-			    	
-			    	camisetaVendaEncontrada.setQuantidade(quantidade);
+			    	if(camiseta.getQuantidade() > camisetaVendaEncontrada.getQuantidade()) {
+			    		int quantidade = camiseta.getQuantidade() - camisetaVendaEncontrada.getQuantidade();
+			    		camisetaBanco.setQuantidade(camisetaBanco.getQuantidade() - quantidade);
+			    	}
+			    	else if(camiseta.getQuantidade() < camisetaVendaEncontrada.getQuantidade()) {
+			    		int quantidade =  camisetaVendaEncontrada.getQuantidade() - camiseta.getQuantidade();
+			    		camisetaBanco.setQuantidade(camisetaBanco.getQuantidade() + quantidade);
+			    	}
+			    	else {
+			    		
+			    	}
+			    	camisetaVendaEncontrada.setQuantidade(camiseta.getQuantidade());
+			    	camisetaRepository.save(camisetaBanco);
 			    }
 			    
 		    	
@@ -228,6 +240,7 @@ public class VendaService {
 			    
 			    
 			    venda.setCamisetaVendas(camisetas);
+			    
 		
 			    return vendaRepository.save(venda);
 			}

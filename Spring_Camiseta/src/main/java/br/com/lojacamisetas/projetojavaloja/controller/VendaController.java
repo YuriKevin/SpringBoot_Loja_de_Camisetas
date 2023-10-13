@@ -86,9 +86,9 @@ public class VendaController {
     	vendaService.addCamisetasVenda(camisetaVenda);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PutMapping(path = "/remove_camiseta")
+    @PutMapping(path = "/atualiza_camiseta")
     public ResponseEntity<Void> AtualizaCamisetasVenda(@RequestBody CamisetaVendaPutRequestBody camisetaVenda){
-    	vendaService.removeCamisetasVenda(camisetaVenda);
+    	vendaService.atualizaCamisetasVenda(camisetaVenda);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
