@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
@@ -46,6 +47,11 @@ public class ClienteController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Cliente> findById(@PathVariable long id){
         return ResponseEntity.ok(clienteService.findByIdOrThrowBadRequestException(id));
+    }
+    
+    @GetMapping(path = "/find")
+    public ResponseEntity<Cliente> findByCpf(@RequestParam(name="cpf") String cpf){
+        return ResponseEntity.ok(clienteService.findByCpf(cpf));
     }
     
     @PostMapping

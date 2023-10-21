@@ -33,6 +33,10 @@ public class ClienteService {
         return clienteRepository.findById(id)
         		.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente Não encontrado"));
  	    }
+	
+	public Cliente findByCpf(String cpf) {
+    	return clienteRepository.findByCpf(cpf);
+    }
     
 	public Cliente save(ClientePostRequestBody clientePostRequestBody) {
     	return clienteRepository.save(Cliente.builder()
