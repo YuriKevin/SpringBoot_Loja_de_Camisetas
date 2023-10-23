@@ -55,6 +55,11 @@ public class CamisetaController {
         return ResponseEntity.ok(camisetaService.findByClube(clube));
     }
     
+    @GetMapping(path = "/find2")
+    public ResponseEntity<List<Camiseta>> findByPaisContaining(@RequestParam(name="pais_continente") String pais_continente){
+        return ResponseEntity.ok(camisetaService.findByPaisContaining(pais_continente));
+    }
+    
     @PostMapping
     public ResponseEntity<Camiseta> save(@RequestBody @Valid CamisetaPostRequestBody camisetaPostRequestBody){
         return new ResponseEntity<>(camisetaService.save(camisetaPostRequestBody), HttpStatus.CREATED);

@@ -6,6 +6,7 @@ import lombok.Data;
 public class CamisetaPutRequestBody {
 	Long id;
 	String clube;
+	String pais;
 	int ano;
 	int quantidade;
 	float valor;

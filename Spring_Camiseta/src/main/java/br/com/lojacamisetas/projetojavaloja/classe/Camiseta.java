@@ -20,6 +20,7 @@ public class Camiseta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	String clube;
+	String pais;
 	int ano;
 	int quantidade;
 	float valor;

@@ -12,9 +12,9 @@ public class CamisetaPostRequestBody {
 
 	@NotEmpty(message = "Camiseta não pode estar vazio.")
 	private String clube;
-	
+	private String pais;
 	private int ano;
 	private int quantidade;
 	private float valor;
-	String imagem;
+	private String imagem;
 }

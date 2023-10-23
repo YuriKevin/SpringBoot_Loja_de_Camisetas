@@ -9,5 +9,6 @@ import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
 public interface CamisetaRepository extends JpaRepository<Camiseta, Long>{
 	
 	List<Camiseta> findByClubeContaining(String clube);
+	List<Camiseta> findByPaisContaining(String pais);
 	
 }

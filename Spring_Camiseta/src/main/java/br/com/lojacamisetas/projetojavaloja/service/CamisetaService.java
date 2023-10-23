@@ -30,6 +30,10 @@ public class CamisetaService {
     	return camisetaRepository.findByClubeContaining(clube);
     }
     
+    public List<Camiseta> findByPaisContaining(String pais_continente) {
+    	return camisetaRepository.findByPaisContaining(pais_continente);
+    }
+    
     public Camiseta findByIdOrThrowBadRequestException(long id) {
         return camisetaRepository.findById(id)
         		.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Camisa Não encontrada"));
@@ -39,6 +43,7 @@ public class CamisetaService {
     public Camiseta save(CamisetaPostRequestBody camisetaPostRequestBody) {
     	return camisetaRepository.save(Camiseta.builder()
     			.clube(camisetaPostRequestBody.getClube())
+    			.pais(camisetaPostRequestBody.getPais())
     			.ano(camisetaPostRequestBody.getAno())
                 .quantidade(camisetaPostRequestBody.getQuantidade())
                 .valor(camisetaPostRequestBody.getValor())
@@ -56,6 +61,7 @@ public class CamisetaService {
         Camiseta camiseta = Camiseta.builder()
                 .id(savedCamiseta.getId())
                 .clube(camisetaPutRequestBody.getClube())
+                .pais(camisetaPutRequestBody.getPais())
                 .ano(camisetaPutRequestBody.getAno())
                 .quantidade(camisetaPutRequestBody.getQuantidade())
                 .valor(camisetaPutRequestBody.getValor())
