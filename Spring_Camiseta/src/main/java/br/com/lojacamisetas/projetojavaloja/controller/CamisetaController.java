@@ -56,8 +56,8 @@ public class CamisetaController {
     }
     
     @GetMapping(path = "/find2")
-    public ResponseEntity<List<Camiseta>> findByPaisContaining(@RequestParam(name="pais_continente") String pais_continente){
-        return ResponseEntity.ok(camisetaService.findByPaisContaining(pais_continente));
+    public ResponseEntity<List<Camiseta>> findByPaisContaining(@RequestParam(name="pais") String pais){
+        return ResponseEntity.ok(camisetaService.findByPaisContaining(pais));
     }
     
     @PostMapping
