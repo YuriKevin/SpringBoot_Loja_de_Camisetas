@@ -63,28 +63,3 @@ public class ClienteService {
 	     
 	    
 }
-
-
-
-
-
-
-
-
-
-/*private static List<Cliente> clientes = new ArrayList<Cliente>(); //array que guardará as camisetas
-
-public ClienteService(){
-	Cliente cliente1 = new Cliente(1L, "Yuri", "22222222");
-    clientes.add(cliente1);
-    Cliente cliente2 = new Cliente(2L, "Geovana", "33333333");
-    clientes.add(cliente2);
-    Cliente cliente3 = new Cliente(3L, "Patrick", "44444444");
-    clientes.add(cliente3);
-    Cliente cliente4 = new Cliente(4L, "Claudio", "44444444");
-    clientes.add(cliente4);
-	}
-    // private final CamisetaRepository camisetaRepository;
-    public List<Cliente> listAll() {
-    	return clientes;
-    }*/

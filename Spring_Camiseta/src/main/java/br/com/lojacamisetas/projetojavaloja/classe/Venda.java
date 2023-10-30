@@ -29,18 +29,19 @@ import lombok.NoArgsConstructor;
 public class Venda {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	LocalDate dia_venda;
-	float valor;
+	private Long id;
+
+	private LocalDate dia_venda;
+	private float valor;
 	
 	@ManyToOne
     @JoinColumn(name = "cliente_id")
     @JsonIgnoreProperties("vendas")
-    Cliente cliente;
+    private Cliente cliente;
 	
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	@JsonManagedReference
-    List<CamisetaVenda> camisetaVendas;
+    private List<CamisetaVenda> camisetaVendas;
 	
 	
 

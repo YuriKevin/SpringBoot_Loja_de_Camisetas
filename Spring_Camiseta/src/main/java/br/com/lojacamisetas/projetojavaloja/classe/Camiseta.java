@@ -18,11 +18,11 @@ import lombok.NoArgsConstructor;
 public class Camiseta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	String clube;
-	String pais;
-	int ano;
-	int quantidade;
-	float valor;
-	String imagem;
+	private Long id;
+	private String clube;
+	private String pais;
+	private int ano;
+	private int quantidade;
+	private float valor;
+	private String imagem;
 }

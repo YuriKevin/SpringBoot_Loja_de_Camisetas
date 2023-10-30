@@ -33,12 +33,11 @@ import lombok.NoArgsConstructor;
 public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	String nome;
-	String cpf;
-	//@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-	//List<Venda> vendas;
+	private Long id;
+	
+	private String nome;
+	private String cpf;
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    List<Venda> vendas;
+    private List<Venda> vendas;
 }

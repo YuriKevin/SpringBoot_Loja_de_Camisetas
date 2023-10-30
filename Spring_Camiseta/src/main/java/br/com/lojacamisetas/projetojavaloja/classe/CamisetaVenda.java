@@ -23,17 +23,17 @@ import lombok.NoArgsConstructor;
 public class CamisetaVenda {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	private Long id;
 	
 	@ManyToOne
     @JoinColumn(name = "camiseta_id")
-    Camiseta camiseta;
+    private Camiseta camiseta;
 	
 	@ManyToOne
     @JoinColumn(name = "venda_id")
 	@JsonBackReference
-    Venda venda;
+    private Venda venda;
     
-	int quantidade;
-	float valor;
+	private int quantidade;
+	private float valor;
 }

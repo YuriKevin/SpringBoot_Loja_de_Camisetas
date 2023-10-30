@@ -38,7 +38,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/vendas") //receberá as requisições feitas à URL ex :http://localhost:8080/camisas/requisicao
+@RequestMapping("/vendas") 
 public class VendaController {
 	private final DateUtil dateUtil;
     private final VendaService vendaService;

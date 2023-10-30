@@ -38,7 +38,7 @@ import javax.validation.Valid;
 @Log4j2
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/camiseta_venda") //receberá as requisições feitas à URL ex :http://localhost:8080/camisas/requisicao
+@RequestMapping("/camiseta_venda")
 public class CamisetaVendaController {
 	private final DateUtil dateUtil;
     private final CamisetaVendaService camisetaVendaService;

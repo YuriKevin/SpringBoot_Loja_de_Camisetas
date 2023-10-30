@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 public class CamisetaVendaPutRequestBody {
 	
-	long id;
+	private long id;
 	private Camiseta camiseta;
-	int quantidade;
-	float valor;
-	long vendaId;
+	private int quantidade;
+	private float valor;
+	private long vendaId;
 }
