@@ -39,6 +39,12 @@ public class ClienteService {
     }
     
 	public Cliente save(ClientePostRequestBody clientePostRequestBody) {
+		
+		Cliente clienteExistente = clienteRepository.findByCpf(clientePostRequestBody.getCpf());
+		if(clienteExistente != null) {
+			new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado");
+		}
+		
     	return clienteRepository.save(Cliente.builder()
     			.nome(clientePostRequestBody.getNome())
     			.cpf(clientePostRequestBody.getCpf())
