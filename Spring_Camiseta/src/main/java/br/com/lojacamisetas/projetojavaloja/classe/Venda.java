@@ -11,11 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,14 +33,10 @@ public class Venda {
 	
 	@ManyToOne
     @JoinColumn(name = "cliente_id")
-    @JsonIgnoreProperties("vendas")
     private Cliente cliente;
 	
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	@JsonManagedReference
     private List<CamisetaVenda> camisetaVendas;
-	
-	
-
 }
 

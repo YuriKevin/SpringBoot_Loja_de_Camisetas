@@ -2,9 +2,6 @@ package br.com.lojacamisetas.projetojavaloja.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -17,12 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
-import br.com.lojacamisetas.projetojavaloja.classe.CamisetaVenda;
 import br.com.lojacamisetas.projetojavaloja.classe.Venda;
-import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPostRequestBody;
-import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPutRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaVendaPostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaVendaPutRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.VendaPostRequestBody;
@@ -65,8 +57,8 @@ public class VendaController {
         return new ResponseEntity<>(vendaService.save(vendaPostRequestBody), HttpStatus.CREATED);
     }
     @PostMapping(path = "cliente/{id}")
-    public ResponseEntity<Long> saveManagement(@PathVariable long id){
-        return new ResponseEntity<>(vendaService.saveManagement(id), HttpStatus.CREATED);
+    public ResponseEntity<Long> inserirVendaManualmente(@PathVariable long id){
+        return new ResponseEntity<>(vendaService.inserirVendaManualmente(id), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -82,13 +74,13 @@ public class VendaController {
     }
     
     @PutMapping(path = "/add_camiseta")
-    public ResponseEntity<Void> addCamisetasVenda(@RequestBody CamisetaVendaPostRequestBody camisetaVenda){
-    	vendaService.addCamisetasVenda(camisetaVenda);
+    public ResponseEntity<Void> adicionarCamisetasParaUmaVenda(@RequestBody CamisetaVendaPostRequestBody camisetaVenda){
+    	vendaService.adicionarCamisetasParaUmaVenda(camisetaVenda);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping(path = "/atualiza_camiseta")
-    public ResponseEntity<Void> AtualizaCamisetasVenda(@RequestBody CamisetaVendaPutRequestBody camisetaVenda){
-    	vendaService.atualizaCamisetasVenda(camisetaVenda);
+    public ResponseEntity<Void> atualizarCamisetasDeUmaVenda(@RequestBody CamisetaVendaPutRequestBody camisetaVenda){
+    	vendaService.atualizarCamisetasDeUmaVenda(camisetaVenda);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     

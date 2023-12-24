@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}?createDatabaseIfNotExist=true
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:mysql://200.128.9.179:3306/bd_camiseta?createDatabaseIfNotExist=true
+    username: remoto
+    password: remoto
   jpa:
     show-sql: true
     hibernate:
