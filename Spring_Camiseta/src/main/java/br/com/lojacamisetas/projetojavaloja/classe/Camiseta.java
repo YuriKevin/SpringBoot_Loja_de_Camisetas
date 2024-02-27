@@ -1,9 +1,12 @@
 package br.com.lojacamisetas.projetojavaloja.classe;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +26,7 @@ public class Camiseta {
 	private int ano;
 	private int quantidade;
 	private float valor;
+	@Lob
+    @Column(columnDefinition = "LONGTEXT")
 	private String imagem;
 }
