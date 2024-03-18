@@ -17,6 +17,8 @@ Back-end em Java com o framework Spring Boot de um chat em tempo real utilizando
 - Atualiza o valor de uma venda automaticamente sempre que há alteração nas camisetas da venda.
 - Salva imagens na base 64 string no atributo imagem de camiseta;
 
+## Diagrama de classes
+![Diagrama de classes](diagrama_classes.jpg)
 
 
 ###
@@ -28,3 +30,4 @@ troque os zeros pelos números de ip : porta do seu banco de dados;
 4. Rode a aplicação na porta 8080 (não precisa especificar a porta, é a padrão do spring).
 <br>
 Confira também o front-end desenvolvido em Angular para este projeto no perfil e execute na porta 4200 para ter uma experiência completa com o sistema.
+
