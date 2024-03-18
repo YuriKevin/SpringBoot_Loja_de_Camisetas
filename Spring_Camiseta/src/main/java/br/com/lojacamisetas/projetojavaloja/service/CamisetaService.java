@@ -1,7 +1,8 @@
 package br.com.lojacamisetas.projetojavaloja.service;
 
 import org.springframework.web.server.ResponseStatusException;
-import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
+
+import br.com.lojacamisetas.projetojavaloja.model.Camiseta;
 import br.com.lojacamisetas.projetojavaloja.repository.CamisetaRepository;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPutRequestBody;
@@ -22,19 +23,19 @@ public class CamisetaService {
 
 	private final CamisetaRepository camisetaRepository;
     
-    public List<Camiseta> listAll() {
+	public List<Camiseta> listAll() {
     	return camisetaRepository.findAll();
     }
     
-    public List<Camiseta> findByClube(String clube) {
+	public List<Camiseta> findByClube(String clube) {
     	return camisetaRepository.findByClubeContaining(clube);
     }
     
-    public List<Camiseta> findByPaisContaining(String pais_continente) {
+	public List<Camiseta> findByPaisContaining(String pais_continente) {
     	return camisetaRepository.findByPaisContaining(pais_continente);
     }
     
-    public Camiseta findByIdOrThrowBadRequestException(long id) {
+	public Camiseta findByIdOrThrowBadRequestException(long id) {
         return camisetaRepository.findById(id)
         		.orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Camisa Não encontrada"));
  	    }
@@ -50,13 +51,25 @@ public class CamisetaService {
                 .imagem(camisetaPostRequestBody.getImagem())
     			.build());
     }
+    
+    @Transactional
+    public Camiseta saveExistingCamiseta(Camiseta camiseta) {
+    	return camisetaRepository.save(Camiseta.builder()
+    			.clube(camiseta.getClube())
+    			.pais(camiseta.getPais())
+    			.ano(camiseta.getAno())
+                .quantidade(camiseta.getQuantidade())
+                .valor(camiseta.getValor())
+                .imagem(camiseta.getImagem())
+    			.build());
+    }
 
-	public void delete(long id) {
+    public void delete(long id) {
 		camisetaRepository.delete(findByIdOrThrowBadRequestException(id));
 		
 	}
 	
-	public void replace(CamisetaPutRequestBody camisetaPutRequestBody) {
+    public void replace(CamisetaPutRequestBody camisetaPutRequestBody) {
         Camiseta savedCamiseta = findByIdOrThrowBadRequestException(camisetaPutRequestBody.getId());
         Camiseta camiseta = Camiseta.builder()
                 .id(savedCamiseta.getId())

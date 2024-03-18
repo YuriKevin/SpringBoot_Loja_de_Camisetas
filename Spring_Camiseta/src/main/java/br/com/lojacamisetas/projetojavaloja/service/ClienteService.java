@@ -2,8 +2,8 @@ package br.com.lojacamisetas.projetojavaloja.service;
 
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
-import br.com.lojacamisetas.projetojavaloja.classe.Cliente;
+import br.com.lojacamisetas.projetojavaloja.model.Camiseta;
+import br.com.lojacamisetas.projetojavaloja.model.Cliente;
 import br.com.lojacamisetas.projetojavaloja.repository.CamisetaRepository;
 import br.com.lojacamisetas.projetojavaloja.repository.ClienteRepository;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPostRequestBody;

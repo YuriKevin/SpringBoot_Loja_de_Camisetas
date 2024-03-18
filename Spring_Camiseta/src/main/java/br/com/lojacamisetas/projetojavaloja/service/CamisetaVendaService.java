@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
-import br.com.lojacamisetas.projetojavaloja.classe.CamisetaVenda;
+import br.com.lojacamisetas.projetojavaloja.model.Camiseta;
+import br.com.lojacamisetas.projetojavaloja.model.CamisetaVenda;
 import br.com.lojacamisetas.projetojavaloja.repository.CamisetaRepository;
 import br.com.lojacamisetas.projetojavaloja.repository.CamisetaVendaRepository;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPostRequestBody;

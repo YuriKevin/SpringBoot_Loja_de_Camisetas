@@ -1,6 +1,6 @@
 package br.com.lojacamisetas.projetojavaloja.controller;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,27 +15,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.lojacamisetas.projetojavaloja.classe.Cliente;
+import br.com.lojacamisetas.projetojavaloja.model.Cliente;
 import br.com.lojacamisetas.projetojavaloja.requests.ClientePostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.ClientePutRequestBody;
 import br.com.lojacamisetas.projetojavaloja.service.ClienteService;
 import br.com.lojacamisetas.projetojavaloja.util.DateUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Component
 @RestController
-@Log4j2
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/clientes")
 public class ClienteController {
-	private final DateUtil dateUtil;
     private final ClienteService clienteService;
     
     @GetMapping
     public ResponseEntity<List<Cliente>> list(){
-    	log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(clienteService.listAll());
     }
 

@@ -2,7 +2,7 @@ package br.com.lojacamisetas.projetojavaloja.requests;
 
 import javax.validation.constraints.NotEmpty;
 
-import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
+import br.com.lojacamisetas.projetojavaloja.model.Camiseta;
 import lombok.Data;
 
 @Data

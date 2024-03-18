@@ -1,4 +1,4 @@
-package br.com.lojacamisetas.projetojavaloja.classe;
+package br.com.lojacamisetas.projetojavaloja.model;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,6 +37,6 @@ public class Venda {
 	
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	@JsonManagedReference
-    private List<CamisetaVenda> camisetaVendas;
+    private List<CamisetaVenda> camisetas;
 }
 

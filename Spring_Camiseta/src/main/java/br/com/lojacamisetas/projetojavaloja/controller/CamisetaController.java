@@ -12,30 +12,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
+import br.com.lojacamisetas.projetojavaloja.model.Camiseta;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPostRequestBody;
 import br.com.lojacamisetas.projetojavaloja.requests.CamisetaPutRequestBody;
 import br.com.lojacamisetas.projetojavaloja.service.CamisetaService;
-import br.com.lojacamisetas.projetojavaloja.util.DateUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import java.time.LocalDateTime;
 import java.util.List;
 import javax.validation.Valid;
 
 @Component
 @RestController
-@Log4j2
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/camisetas")
 public class CamisetaController {
-	private final DateUtil dateUtil;
     private final CamisetaService camisetaService;
     
     @GetMapping
     public ResponseEntity<List<Camiseta>> list(){
-    	log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(camisetaService.listAll());
     }
 

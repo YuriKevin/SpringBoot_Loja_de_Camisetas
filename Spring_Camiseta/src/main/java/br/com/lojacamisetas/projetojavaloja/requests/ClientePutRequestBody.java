@@ -2,7 +2,7 @@ package br.com.lojacamisetas.projetojavaloja.requests;
 
 import java.util.List;
 
-import br.com.lojacamisetas.projetojavaloja.classe.Venda;
+import br.com.lojacamisetas.projetojavaloja.model.Venda;
 import lombok.Data;
 
 @Data

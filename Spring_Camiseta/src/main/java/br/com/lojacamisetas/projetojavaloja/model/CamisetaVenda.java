@@ -1,4 +1,4 @@
-package br.com.lojacamisetas.projetojavaloja.classe;
+package br.com.lojacamisetas.projetojavaloja.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.lojacamisetas.projetojavaloja.classe.Camiseta;
-import br.com.lojacamisetas.projetojavaloja.classe.Cliente;
+import br.com.lojacamisetas.projetojavaloja.model.Camiseta;
+import br.com.lojacamisetas.projetojavaloja.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 
